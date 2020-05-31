@@ -19,12 +19,23 @@ def find_files(suffix, path):
 
 
 print("Test finding .c file")
-print(find_files(".c", "./testdir"))
+print("Pass" if find_files(".c", "./testdir") == ['./testdir\\subdir1\\a.c', './testdir\\subdir3\\subsubdir1\\b.c',
+                                                  './testdir\\subdir5\\a.c', './testdir\\t1.c']
+      else "Fail")
 print("Test finding .h file")
-print(find_files(".h", "./testdir"))
+print("Pass" if find_files(".h", "./testdir") == ['./testdir\\subdir1\\a.h', './testdir\\subdir3\\subsubdir1\\b.h',
+                                                  './testdir\\subdir5\\a.h', './testdir\\t1.h']
+      else "Fail")
 print("Test finding .gitkeep file")
-print(find_files(".gitkeep", "./testdir"))
+print("Pass" if find_files(".gitkeep", "./testdir") == ['./testdir\\subdir2\\.gitkeep', './testdir\\subdir4\\.gitkeep']
+      else "Fail")
 print("Test extreme case: no suffix given")
-print(find_files("", "./testdir"))
+print("Pass" if find_files("", "./testdir") == ['./testdir\\subdir1\\a.c', './testdir\\subdir1\\a.h',
+                                                './testdir\\subdir2\\.gitkeep', './testdir\\subdir3\\subsubdir1\\b.c',
+                                                './testdir\\subdir3\\subsubdir1\\b.h', './testdir\\subdir4\\.gitkeep',
+                                                './testdir\\subdir5\\a.c', './testdir\\subdir5\\a.h', './testdir\\t1.c',
+                                                './testdir\\t1.h']
+      else "Fail")
 print("Test extreme case: wrong suffix given")
-print(find_files(".py", "testdir"))
+print("Pass" if find_files(".py", "testdir") == []
+      else "Fail")

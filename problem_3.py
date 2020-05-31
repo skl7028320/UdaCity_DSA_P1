@@ -319,6 +319,8 @@ Test case 1:
     print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print("The content of the decoded data is: {}\n".format(decoded_data))
 
+    print("Test case 1 pass" if decoded_data == a_great_sentence else "Test case 1 fail")
+
     print(f"""---------------------------------------
 Test case 2: 
     """)
@@ -337,6 +339,8 @@ Test case 2:
     print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print("The content of the decoded data is: {}\n".format(decoded_data))
 
+    print("Test case 2 pass" if decoded_data == a_great_sentence else "Test case 2 fail")
+
     print(f"""---------------------------------------
 Test case 3: 
     """)
@@ -354,3 +358,5 @@ Test case 3:
 
     print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
     print("The content of the decoded data is: {}\n".format(decoded_data))
+
+    print("Test case 3 pass" if decoded_data == a_great_sentence else "Test case 3 fail")
