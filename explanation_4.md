@@ -12,3 +12,6 @@ false otherwise.
 ## Time complexity
 In the worst case that the user is not in the group, the whole tree structure is traversed and therefore the time 
 complexity is O(n) where n is the number of elements in the tree including internal and external nodes.
+
+## Space complexity
+The space complexity is O(n) because for each element in the group, there is a bool value created.

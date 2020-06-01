@@ -17,13 +17,19 @@ tree to recover the original data.
 The basic 'Node' class is used for both priority queue and Huffman tree. Priority queue is implemented by linked list.
 
 ## Time complexity
-For `build_priority_queue()`, every time a new character is inserted into the priority queue, the priority queue needs 
-be completely traversed in worst case. Assuming the number of input character is n, the time complexity is O(n^2). 
-`build_huffman_tree()` has O(n) time complexity because the priority queue needs to dequeue all elements and insert 
-them into Huffman tree. `generate_char_code()` traverses the Huffman tree. Therefore it has the time complexity of 
-O(h) where n is the number of elements in Huffman tree. `create_encoded_data()` takes O(n) where n is the size of 
-string. Hence, the overall time complexity of Huffman encoding part is O(n^2) because all the procedures can be 
-neglected other than building the priority queue.
+There are two ways to build priority queue. For `build_priority_queue()` using linked list implemented priority queue, 
+every time a new character is inserted into the priority queue, the priority queue needs to be completely traversed in 
+the worst case. Assuming the number of input character is n, the time complexity is O(n^2). For `build_heap_queue()` 
+using heap implemented priority queue, the time complexity is O(nlog(n)) `build_huffman_tree()` has O(n) time 
+complexity because the priority queue needs to dequeue all elements and insert them into Huffman tree. 
+`generate_char_code()` traverses the Huffman tree. Therefore it has the time complexity of O(h) where n is the number 
+of elements in Huffman tree. `create_encoded_data()` takes O(n) where n is the size of string. Hence, the overall time 
+complexity of Huffman encoding part is O(n^2) using priority queue implemented by linked list and O(nlog(n)) using 
+priority queue implemented by heap because all the procedures can be neglected other than building the priority queue.
 
 For decoding part of Huffman coding, the time complexity is simply O(n) where n is the number of bits in encoded data 
 as well as the width of Huffman tree.
+
+# Space complexity
+For Huffman encoding, a priority queue storing character and frequency and a dictionary storing character and code are 
+created. For Huffman decoding, there is no extra space used.

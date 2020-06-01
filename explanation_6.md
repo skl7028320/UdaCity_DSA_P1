@@ -21,4 +21,9 @@ output list by traversing them, which takes time complexity of O(n). In summary,
 O(m * n + n) where O(n) is negligible when m is not much smaller than n resulting final time complexity O(m * n).
 
 For intersection function, the analogous operation is executed to find the same elements in list A and B. The 
-difference is that only the same elements are inserted into output list. Therefore the time complexity is O(m * n)
+difference is that only the same elements are inserted into output list. Therefore the time complexity is O(m * n).
+
+## Space complexity
+For union operation, assuming the two input linked lists have length m and n, an output linked list is created with k 
+elements where max(m, n) < k < m + n. For intersection operation, similarly the output linked list has k elements where 
+k < min(m, n).

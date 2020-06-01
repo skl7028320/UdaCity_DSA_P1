@@ -12,3 +12,7 @@ list. By appending all the small output returned by recursion the final output i
 ## Time complexity
 The input of function is a directory which is essentially a tree data structure. In order to find the required file the 
 tree needs to be completely traversed. Therefore the time complexity is O(n).
+
+## Space complexity
+The space complexity is O(n) where n is the number of file and directory in the input path because for each element in 
+the traversed tree structure, some output occupying constant space is created.

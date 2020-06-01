@@ -13,7 +13,7 @@ class Block:
 
     def calc_hash(self):
         if self.previous_hash is None:
-            hash_str = hash_str = (self.timestamp + self.data).encode('utf-8')
+            hash_str = (self.timestamp + self.data).encode('utf-8')
         else:
             hash_str = (self.timestamp + self.data + self.previous_hash).encode('utf-8')
 
@@ -59,6 +59,11 @@ class BlockChain:
         return output
 
 
+'''
+Every created block chain is different because the timestamp differs for each run. Therefore testing the output is not
+possible.
+'''
+# Test case 1
 genesis_timestamp = str(datetime.utcnow().timestamp())
 genesis_data = "genesis block"
 genesis_block = Block(genesis_timestamp, genesis_data)
@@ -76,7 +81,37 @@ for i in range(1, 6):
     previous_block = new_block
     time.sleep(1)
 
+print("Test case 1:")
 print(block_chain.to_list())
 
-# Every created block chain is different because the timestamp differs for each run. Therefore testing the output is not
-# possible.
+# Test case 2
+genesis_timestamp = str(datetime.utcnow().timestamp())
+genesis_data = "genesis block"
+genesis_block = Block(genesis_timestamp, genesis_data)
+
+block_chain = BlockChain()
+block_chain.append(genesis_block)
+
+previous_block = genesis_block
+new_block = None
+for i in range(1, 11):
+    timestamp = str(datetime.utcnow().timestamp())
+    data = "bitcoin " + str(i)
+    new_block = Block(timestamp, data, previous_block.hash)
+    block_chain.append(new_block)
+    previous_block = new_block
+    time.sleep(0.1)
+
+print("\nTest case 2:")
+print(block_chain.to_list())
+
+# Test case 3
+genesis_timestamp = str(datetime.utcnow().timestamp())
+genesis_data = "only genesis block"
+genesis_block = Block(genesis_timestamp, genesis_data)
+
+block_chain = BlockChain()
+block_chain.append(genesis_block)
+
+print("\nTest case 3:")
+print(block_chain.to_list())

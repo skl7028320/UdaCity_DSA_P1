@@ -1,5 +1,6 @@
 import sys
 from collections import deque
+import heapq
 
 
 class Node:
@@ -28,8 +29,14 @@ class Node:
     def get_right_child(self):
         return self.right
 
+    def __repr__(self):
+        return f"Node({self.char}, {self.frequency})"
+
     def __str__(self):
         return f"Node({self.char}, {self.frequency})"
+
+    def __lt__(self, other):
+        return self.frequency < other.frequency
 
 
 class PriorityQueue:
@@ -152,6 +159,68 @@ test_queue = build_priority_queue(test_data)
 print("Pass\n" if test_queue.convert_to_list() == [('D', 2), ('B', 3), ('E', 6), ('C', 7), ('A', 7)] else "Fail\n")
 
 
+class HeapQueue:
+    def __init__(self):
+        self.q = []
+        heapq.heapify(self.q)
+
+    def enqueue(self, node):
+        heapq.heappush(self.q, node)
+
+    def dequeue(self):
+        return heapq.heappop(self.q)
+
+    def size(self):
+        return len(self.q)
+
+    # After calling this function, the heap is empty
+    def __repr__(self):
+        s = ""
+
+        while len(self.q) > 0:
+            if len(self.q) == 1:
+                s += str(self.dequeue())
+            else:
+                s += str(self.dequeue()) + " -> "
+
+        return s
+
+    def __str__(self):
+        return self.__repr__()
+
+
+def build_heap_queue(data):
+    heap_queue = HeapQueue()
+
+    count = 0
+    current_char = data[0]
+    for i, char in enumerate(data):
+        if char == current_char:
+            count += 1
+            if i == len(data) - 1:
+                node = Node(current_char, count)
+                heap_queue.enqueue(node)
+                continue
+        else:
+            node = Node(current_char, count)
+            heap_queue.enqueue(node)
+            if i == len(data) - 1:
+                node = Node(char, 1)
+                heap_queue.enqueue(node)
+                continue
+            current_char = char
+            count = 1
+
+    return heap_queue
+
+
+print("Test build_heap_queue()")
+test_data = "AAAAAAABBBCCCCCCCDDEEEEEE"
+test_heap_queue = build_heap_queue(test_data)
+print("Pass\n" if str(test_heap_queue) == "Node(D, 2) -> Node(B, 3) -> Node(E, 6) -> Node(A, 7) -> Node(C, 7)" else "Fail\n")
+
+
+# Queue used for visualizing Huffman tree
 class Queue:
     def __init__(self):
         self.q = deque()
@@ -271,10 +340,21 @@ print("Pass" if test_encoded_data == "111111111111110010010011010101010101000000
 
 
 def huffman_encoding(data):
-    queue = build_priority_queue(data)
+    if data == "":
+        return "Invalid input: the input string can not be empty."
+
+    # Priority queue implemented using linked list
+    #queue = build_priority_queue(data)
+    # Priority queue implemented using heap
+    queue = build_heap_queue(data)
+
+    if queue.size() == 1:
+        return "Invalid input: the input string can not have only repeating characters."
+
     tree = build_huffman_tree(queue)
     look_up_table = generate_char_code(tree)
     encoded_data = create_encoded_data(data, look_up_table)
+
     return encoded_data, tree
 
 
@@ -301,6 +381,7 @@ if __name__ == "__main__":
 Main function starts here
 """)
 
+    # Test case 1
     print(f"""---------------------------------------
 Test case 1: 
 """)
@@ -321,6 +402,7 @@ Test case 1:
 
     print("Test case 1 pass" if decoded_data == a_great_sentence else "Test case 1 fail")
 
+    # Test case 2
     print(f"""---------------------------------------
 Test case 2: 
     """)
@@ -341,6 +423,7 @@ Test case 2:
 
     print("Test case 2 pass" if decoded_data == a_great_sentence else "Test case 2 fail")
 
+    # Test case 3
     print(f"""---------------------------------------
 Test case 3: 
     """)
@@ -360,3 +443,32 @@ Test case 3:
     print("The content of the decoded data is: {}\n".format(decoded_data))
 
     print("Test case 3 pass" if decoded_data == a_great_sentence else "Test case 3 fail")
+
+    # Test case 4
+    '''
+    When the input is empty string, no need for Huffman coding. Practically an assertion error should be raised. Here
+    a string is returned for test purpose.
+    '''
+    print(f"""---------------------------------------
+Test case 4: empty string as input
+        """)
+    a_great_sentence = ""
+
+    print("Test case 4 pass" if huffman_encoding(a_great_sentence) == "Invalid input: the input string can not be "
+                                                                      "empty."
+          else "Test case 4 fail")
+
+    # Test case 5
+    '''
+    When the input has only repeating characters, the generated Huffman tree has only root and no code can be created.
+    There for the input is invalid in this case. Practically an assertion error should be raised. Here a string is
+    returned for test purpose.
+    '''
+    print(f"""---------------------------------------
+Test case 5: string with repeating character as input
+        """)
+    a_great_sentence = "aaaaaaaaa"
+
+    print("Test case 5 pass" if huffman_encoding(a_great_sentence) == "Invalid input: the input string can not have "
+                                                                      "only repeating characters."
+          else "Test case 5 fail")

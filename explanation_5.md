@@ -12,3 +12,9 @@ node in current node.
 ## Time complexity
 Appending a block to blockchain has time complexity of O(1) just like normal linked list by adding element to the head 
 side of blockchain.
+
+## Space complexity
+For appending block to blockchain, the space complexity is O(n) because it's only simply linking the new block to the 
+current head of blockchain and no extra space is used. For calculating hash, a new string comprising all information in 
+block and a `sha256` object is created. Therefore the space complexity is O(n) where n is the number of block inserted 
+into blockchain.

@@ -80,6 +80,8 @@ class LRUCache:
         self.queue = Queue()
 
     def get(self, key):
+        if self.capacity == 0:
+            return "There is not any key-value structure in LRU cache because it has 0 capacity"
         if key in self.cache:
             self.queue.move_node_to_tail(key)
             return self.cache[key]
@@ -88,6 +90,8 @@ class LRUCache:
 
     def set(self, key, value):
         if len(self.cache) == self.capacity:
+            if self.capacity == 0:
+                return "It's not possible to set any key-value structure because LRU cache capacity is 0."
             self._handle_full_capacity()
         self.cache[key] = value
         self.queue.enqueue(key)
@@ -103,21 +107,63 @@ class LRUCache:
         return str(self.__repr__())
 
 
-test_cache = LRUCache(5)
+# Test case 1
+print("Test case 1:")
+test_cache_1 = LRUCache(5)
 
 print("Test set")
-test_cache.set(1, 1)
-test_cache.set(2, 2)
-test_cache.set(3, 3)
-test_cache.set(4, 4)
-print("Pass" if str(test_cache) == "{1: 1, 2: 2, 3: 3, 4: 4}" else "Fail")
+test_cache_1.set(1, 1)
+test_cache_1.set(2, 2)
+test_cache_1.set(3, 3)
+test_cache_1.set(4, 4)
+print("Pass" if str(test_cache_1) == "{1: 1, 2: 2, 3: 3, 4: 4}" else "Fail")
 
 print("Test get")
-print("Pass" if (test_cache.get(1) == 1) else "Fail")
-print("Pass" if (test_cache.get(2) == 2) else "Fail")
-print("Pass" if (test_cache.get(9) == -1) else "Fail")
+print("Pass" if (test_cache_1.get(1) == 1) else "Fail")
+print("Pass" if (test_cache_1.get(2) == 2) else "Fail")
+print("Pass" if (test_cache_1.get(9) == -1) else "Fail")
 
 print("Test full capacity handling")
-test_cache.set(5, 5)
-test_cache.set(6, 6)
-print("Pass" if (test_cache.get(3) == -1) else "Fail")
+test_cache_1.set(5, 5)
+test_cache_1.set(6, 6)
+print("Pass" if (test_cache_1.get(3) == -1) else "Fail")
+
+# Test case 2
+print("\nTest case 2:")
+test_cache_2 = LRUCache(3)
+
+print("Test set")
+test_cache_2.set(1, 'a')
+test_cache_2.set(2, 'b')
+test_cache_2.set(3, 'c')
+print("Pass" if str(test_cache_2) == "{1: 'a', 2: 'b', 3: 'c'}" else "Fail")
+
+print("Test get")
+print("Pass" if (test_cache_2.get(1) == 'a') else "Fail")
+print("Pass" if (test_cache_2.get(2) == 'b') else "Fail")
+print("Pass" if (test_cache_2.get(9) == -1) else "Fail")
+
+print("Test full capacity handling")
+test_cache_2.set(4, 'c')
+print("Pass" if (test_cache_2.get(3) == -1) else "Fail")
+
+# Test case 3
+print("\nTest case 3:")
+test_cache_3 = LRUCache(0)
+
+print("Test set")
+'''
+When the capacity of LRU cache is 0, it's not possible to insert any element into cache. Practically an assertion error
+should be raised but here a string is returned instead for test purpose.
+'''
+print("Pass" if test_cache_3.set(1, 1) == "It's not possible to set any key-value structure because LRU cache capacity "
+                                          "is 0."
+      else "Fail")
+
+print("Test get")
+'''
+When the capacity of LRU cache is 0, it's not possible to get any element from cache. Practically an assertion error
+should be raised but here a string is returned instead for test purpose.
+'''
+print("Pass" if test_cache_3.get(1) == "There is not any key-value structure in LRU cache because it has 0 capacity"
+      else "Fail")

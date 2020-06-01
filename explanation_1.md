@@ -21,3 +21,7 @@ queue needs to be fully traversed.
 For the costume `Cache` class, the input is the elements in the cache. Since the `get()` calls `move_element_to_tail()` 
 which costs O(n), it has time complexity of O(n). The `set()` only calls the deletion additionally which takes constant 
 time and has time complexity of O(1).
+
+## Space complexity
+The space complexity of all operations (`enqueue`, `dequeue` and `move_node_to_tail` of `Queue` data structure and 
+`set`, `get` and `handle_full_capacity` of `LRUCache` data structure) are linear (O(n)) because no extra space is used.
